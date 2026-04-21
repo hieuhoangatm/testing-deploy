@@ -1,0 +1,7 @@
+services:
+  hayden:
+    image: ${IMAGE}
+    container_name: hayden-app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:8080"
