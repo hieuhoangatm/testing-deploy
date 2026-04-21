@@ -40,12 +40,47 @@ public class HomeController {
                             font-size: 1.2rem;
                             font-weight: 700;
                         }
+                        .title {
+                            margin: 0 0 12px;
+                            font-size: 1.5rem;
+                        }
+                        .desc {
+                            margin: 0 0 18px;
+                            font-size: 1.02rem;
+                            font-weight: 500;
+                            color: #cbd5e1;
+                        }
+                        .links {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                            gap: 10px;
+                            margin-top: 8px;
+                        }
+                        .links a {
+                            display: block;
+                            text-decoration: none;
+                            border-radius: 10px;
+                            padding: 12px;
+                            font-size: 0.95rem;
+                            font-weight: 700;
+                            color: #0b1020;
+                            background: linear-gradient(135deg, #22d3ee, #3b82f6);
+                        }
                     </style>
                 </head>
                 <body>
                     <div class="card">
-                        Hello tất cả mọi người tôi là đại tướng quân đội nhân dân, tổng tham mưu, bộ trưởng bộ quốc phòng,
-                        tổng tư lệnh quân khu 1, đại đô đốc lục binh và phòng không Hoàng Văn Minh Hiếu
+                        <h1 class="title">Hayden Demo Landing Page</h1>
+                        <p class="desc">
+                            Hello tất cả mọi người tôi là đại tướng quân đội nhân dân, tổng tham mưu, bộ trưởng bộ quốc phòng,
+                            tổng tư lệnh quân khu 1, đại đô đốc lục binh và phòng không Hoàng Văn Minh Hiếu
+                        </p>
+                        <div class="links">
+                            <a href="/quiz">Mo trang quiz (/quiz)</a>
+                            <a href="/news-app">Mo trang CRUD tin tuc (/news-app)</a>
+                            <a href="/actuator/health">Kiem tra health (/actuator/health)</a>
+                            <a href="/api/articles">Xem API danh sach bai viet (/api/articles)</a>
+                        </div>
                     </div>
                 </body>
                 </html>
