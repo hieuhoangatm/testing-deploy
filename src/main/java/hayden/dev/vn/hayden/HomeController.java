@@ -165,7 +165,7 @@ public class HomeController {
                     <script>
                         function showResult(choice) {
                             const result = document.getElementById('result');
-                            result.textContent = 'Bạn chọn ' + choice + '. Việt thích tất cả cơ';
+                            result.textContent = 'Bạn chọn ' + choice + '. Bạn chọn chưa đúng rồi Việt thích tất cả cơ';
                         }
                     </script>
                 </body>
