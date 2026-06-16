@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle != null ? pageTitle + ' | Hayden.dev' : 'Hayden.dev'}">Hayden.dev</title>
+    <meta name="description" th:content="${pageDescription ?: 'Blog cá nhân về Java, Spring Boot và Backend Development'}">
+    <meta name="author" content="Hoang Dinh Hieu">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Hayden.dev">
+    <meta property="og:title" th:content="${pageTitle ?: 'Hayden.dev'}">
+    <meta property="og:description" th:content="${pageDescription ?: 'Blog cá nhân về Java, Spring Boot và Backend Development'}">
+    <meta property="og:image" th:content="${pageOgImage ?: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=1200&q=80'}">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" th:content="${pageTitle ?: 'Hayden.dev'}">
+    <meta name="twitter:description" th:content="${pageDescription ?: 'Blog cá nhân về Java, Spring Boot và Backend Development'}">
+    <meta name="twitter:image" th:content="${pageOgImage ?: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=1200&q=80'}">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Canonical -->
+    <link rel="canonical" th:if="${canonicalUrl != null}" th:href="${canonicalUrl}">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <!-- Theme init: prevent flash -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme');
+            const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', saved || preferred);
+        })();
+    </script>
+</head>
+</html>

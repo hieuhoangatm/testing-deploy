@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - develop
+      - staging
       - master
 
 permissions:
@@ -17,9 +19,6 @@ env:
 jobs:
   docker:
     runs-on: ubuntu-latest
-    outputs:
-      image: ${{ steps.meta.outputs.tags }}
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -50,7 +49,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=latest
+            type=raw,value=develop-latest,enable=${{ github.ref == 'refs/heads/develop' }}
+            type=raw,value=staging-latest,enable=${{ github.ref == 'refs/heads/staging' }}
+            type=raw,value=prod-latest,enable=${{ github.ref == 'refs/heads/master' }}
             type=sha
 
       - name: Build and push image
@@ -61,7 +62,63 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  deploy:
+  deploy-develop:
+    runs-on: self-hosted
+    needs: docker
+    if: ${{ github.ref == 'refs/heads/develop' }}
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Deploy develop environment
+        env:
+          APP_PORT: ${{ secrets.APP_PORT_DEVELOP }}
+        run: |
+          set -e
+          DEPLOY_PATH="${HOME}/hayden-develop"
+          mkdir -p "${DEPLOY_PATH}"
+          cp deploy/docker-compose.yml "${DEPLOY_PATH}/docker-compose.yml"
+          cd "${DEPLOY_PATH}"
+          echo "IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:develop-latest" > .env
+          echo "APP_PORT=${APP_PORT:-18080}" >> .env
+          echo "${{ github.token }}" | docker login ${{ env.REGISTRY }} -u "${{ github.actor }}" --password-stdin
+          docker compose pull
+          docker compose up -d --remove-orphans
+          docker image prune -f
+
+  deploy-staging:
+    runs-on: self-hosted
+    needs: docker
+    if: ${{ github.ref == 'refs/heads/staging' }}
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Deploy staging environment
+        env:
+          APP_PORT: ${{ secrets.APP_PORT_STAGING }}
+        run: |
+          set -e
+          DEPLOY_PATH="${HOME}/hayden-staging"
+          mkdir -p "${DEPLOY_PATH}"
+          cp deploy/docker-compose.yml "${DEPLOY_PATH}/docker-compose.yml"
+          cd "${DEPLOY_PATH}"
+          echo "IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:staging-latest" > .env
+          echo "APP_PORT=${APP_PORT:-28080}" >> .env
+          echo "${{ github.token }}" | docker login ${{ env.REGISTRY }} -u "${{ github.actor }}" --password-stdin
+          docker compose pull
+          docker compose up -d --remove-orphans
+          docker image prune -f
+
+  deploy-production:
     runs-on: self-hosted
     needs: docker
     if: ${{ github.ref == 'refs/heads/master' }}
@@ -73,16 +130,16 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Deploy locally on self-hosted machine
+      - name: Deploy production environment
         env:
-          APP_PORT: ${{ secrets.APP_PORT }}
+          APP_PORT: ${{ secrets.APP_PORT_PROD }}
         run: |
           set -e
-          DEPLOY_PATH="${HOME}/hayden-deploy"
+          DEPLOY_PATH="${HOME}/hayden-production"
           mkdir -p "${DEPLOY_PATH}"
           cp deploy/docker-compose.yml "${DEPLOY_PATH}/docker-compose.yml"
           cd "${DEPLOY_PATH}"
-          echo "IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" > .env
+          echo "IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod-latest" > .env
           echo "APP_PORT=${APP_PORT:-8080}" >> .env
           echo "${{ github.token }}" | docker login ${{ env.REGISTRY }} -u "${{ github.actor }}" --password-stdin
           docker compose pull

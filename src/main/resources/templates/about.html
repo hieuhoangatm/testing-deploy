@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+
+<nav th:replace="~{fragments/nav :: navbar}"></nav>
+
+<main>
+    <section class="page-hero">
+        <div class="container">
+            <h1 class="page-title">Về tôi</h1>
+            <p class="page-subtitle">Backend Engineer · Java enthusiast · Người yêu cà phê ☕</p>
+        </div>
+    </section>
+
+    <section class="about-intro">
+        <div class="container about-grid">
+            <div class="about-photo">
+                <div class="about-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80&fit=crop&crop=face"
+                         th:alt="${authorName}" loading="lazy" class="about-img">
+                </div>
+                <div class="about-contact-card">
+                    <h4>Liên hệ</h4>
+                    <div class="contact-links">
+                        <a th:href="${github}" class="contact-link" target="_blank" rel="noopener">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                            GitHub
+                        </a>
+                        <a th:href="${linkedin}" class="contact-link" target="_blank" rel="noopener">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            LinkedIn
+                        </a>
+                        <a th:href="'mailto:' + ${email}" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="about-text">
+                <h2 th:text="${authorName}">Hoang Dinh Hieu</h2>
+                <p class="about-tagline">Backend Engineer tại Kaopiz Software, Hà Nội</p>
+                <div class="about-bio">
+                    <p>
+                        Xin chào! Tôi là <strong>Hoang Dinh Hieu</strong>, một Backend Engineer với hơn 1 năm kinh nghiệm
+                        xây dựng các hệ thống backend với Java và Spring Boot.
+                    </p>
+                    <p>
+                        Tôi đam mê kiến trúc phần mềm — đặc biệt là Clean Architecture, Event-Driven Systems
+                        và Microservices. Tôi tin rằng code tốt không chỉ là code hoạt động được, mà còn phải
+                        dễ đọc, dễ test và dễ maintain.
+                    </p>
+                    <p>
+                        Blog này là nơi tôi chia sẻ những gì học được từ kinh nghiệm thực tế, những vấn đề
+                        thú vị tôi gặp phải và cách giải quyết chúng. Tôi viết vì tôi tin rằng
+                        <em>"The best way to learn is to teach."</em>
+                    </p>
+                    <p>
+                        Ngoài công việc, tôi thích đọc sách kỹ thuật, đóng góp open-source và uống cà phê ☕
+                        trong khi nghe nhạc lo-fi.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section">
+        <div class="container">
+            <h2 class="section-title">Kỹ năng &amp; Công nghệ</h2>
+            <div class="skills-grid" th:each="entry : ${skillsByCategory}">
+                <div class="skill-group">
+                    <h3 class="skill-group-title" th:text="${entry.key}">Category</h3>
+                    <div class="skill-pills">
+                        <div th:each="skill : ${entry.value}" class="skill-pill">
+                            <span th:text="${skill.name}">Skill</span>
+                            <div class="skill-level">
+                                <span th:each="i : ${#numbers.sequence(1, 5)}"
+                                      class="level-dot"
+                                      th:classappend="${i <= skill.level} ? 'active'"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section">
+        <div class="container">
+            <h2 class="section-title">Kinh nghiệm &amp; Học vấn</h2>
+            <div class="timeline">
+                <div th:each="entry, iter : ${timeline}"
+                     class="timeline-item"
+                     th:classappend="${entry.type == 'education'} ? 'timeline-education' : 'timeline-work'">
+                    <div class="timeline-marker">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line" th:unless="${iter.last}"></div>
+                    </div>
+                    <div class="timeline-card">
+                        <div class="timeline-period" th:text="${entry.period}">Period</div>
+                        <div class="timeline-type-badge">
+                            <span th:if="${entry.type == 'work'}" class="badge-work">💼 Làm việc</span>
+                            <span th:if="${entry.type == 'education'}" class="badge-edu">🎓 Học tập</span>
+                        </div>
+                        <h3 class="timeline-title" th:text="${entry.title}">Title</h3>
+                        <p class="timeline-org" th:text="${entry.organization}">Organization</p>
+                        <p class="timeline-desc" th:text="${entry.description}">Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer th:fragment="footer" class="footer">
+    <div class="container footer-inner">
+        <div class="footer-brand">
+            <a href="/" class="navbar-brand">
+                <span class="brand-icon">⚡</span>
+                <span class="brand-name">Hayden.dev</span>
+            </a>
+            <p class="footer-desc">Blog cá nhân về Java, Spring Boot và Backend Development.</p>
+        </div>
+        <div class="footer-links">
+            <div class="footer-col">
+                <h4>Trang</h4>
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/projects">Dự án</a></li>
+                    <li><a href="/about">Về tôi</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Liên hệ</h4>
+                <ul>
+                    <li><a href="https://github.com/hieuhd" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="https://linkedin.com/in/hieuhd" target="_blank" rel="noopener">LinkedIn</a></li>
+                    <li><a href="https://facebook.com/hieuhd" target="_blank" rel="noopener">Facebook</a></li>
+                    <li><a href="mailto:hieuhd@kaopiz.com">Email</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Khác</h4>
+                <ul>
+                    <li><a href="/sitemap.xml" target="_blank">Sitemap</a></li>
+                    <li><a href="/robots.txt" target="_blank">Robots.txt</a></li>
+                    <li><a href="/actuator/health" target="_blank">Health</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>© <span id="year"></span> Hoang Dinh Hieu. Built with ☕ Spring Boot &amp; Thymeleaf.</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
