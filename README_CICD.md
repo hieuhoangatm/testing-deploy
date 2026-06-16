@@ -1,21 +1,23 @@
 # Hayden CI/CD Demo
 
-Project nay da duoc cau hinh de demo theo huong free:
-- CI: build + test bang GitHub Actions
-- CD: build Docker image, push len GHCR, deploy tren self-hosted runner (Oracle free-tier hoac may Linux ca nhan)
+Project nay da duoc cau hinh theo 3 moi truong:
+- CI: build + test cho `develop`, `staging`, `master`
+- CD: build Docker image, push len GHCR va deploy theo tung moi truong tren self-hosted runner
 
 ## 1) Cac file da co san
 
-- `.github/workflows/ci.yml`: chay `./mvnw clean verify`
-- `.github/workflows/cd.yml`: build image va deploy
+- `.github/workflows/ci.yml`: chay `./mvnw clean verify` tren 3 nhanh
+- `.github/workflows/cd.yml`: build image va deploy theo nhanh
 - `Dockerfile`: dong goi Spring Boot jar
 - `deploy/docker-compose.yml`: chay container tren server
 
-## 2) Tao GitHub Secrets (toi thieu)
+## 2) Tao GitHub Secrets
 
 Vao repo -> Settings -> Secrets and variables -> Actions, tao:
 
-- `APP_PORT`: port public tren server (vi du `8080`)
+- `APP_PORT_DEVELOP`: port deploy cho develop (vi du `18080`)
+- `APP_PORT_STAGING`: port deploy cho staging (vi du `28080`)
+- `APP_PORT_PROD`: port deploy cho production (vi du `8080`)
 
 ## 3) Chuan bi server demo (free)
 
@@ -28,7 +30,10 @@ May nay can cai:
 - Docker Compose plugin (`docker compose`)
 - GitHub Actions self-hosted runner
 
-Thu muc deploy mac dinh: `/opt/hayden`
+Thu muc deploy theo moi truong:
+- develop: `~/hayden-develop`
+- staging: `~/hayden-staging`
+- production: `~/hayden-production`
 
 ### Dang ky self-hosted runner
 
@@ -36,28 +41,25 @@ Thu muc deploy mac dinh: `/opt/hayden`
 2. Chon Linux va chay cac lenh ma GitHub cung cap tren server
 3. Sau khi runner online, job `deploy` se chay truc tiep tren may nay
 
-## 4) Luong demo
+## 4) Luong chuyen giao 3 moi truong
 
-1. Push code len branch `master`
-2. Workflow `CI` chay build/test
-3. Workflow `CD` build image va push:
-   - `ghcr.io/<owner>/<repo>:latest`
-   - `ghcr.io/<owner>/<repo>:sha-<commit>`
-4. Job deploy (self-hosted runner) tren server va chay:
-   - `docker compose pull`
-   - `docker compose up -d --remove-orphans`
-   - `docker image prune -f`
+1. Dev merge code vao `develop`
+2. CI chay test, CD build image tag `develop-latest` va deploy vao `~/hayden-develop`
+3. Promote sang `staging`
+4. CI chay lai, CD build image tag `staging-latest` va deploy vao `~/hayden-staging`
+5. Promote sang `master` (production)
+6. CI chay lai, CD build image tag `prod-latest` va deploy vao `~/hayden-production`
 
 ## 5) Lenh kiem tra tren server
 
 ```bash
-cd /opt/hayden
+cd ~/hayden-production
 docker compose ps
 docker logs hayden-app --tail=100
 curl http://localhost:8080/actuator/health
 ```
 
-Neu doi port public, cap nhat secret `APP_PORT`.
+Neu doi port moi moi truong, cap nhat cac secret `APP_PORT_*`.
 
 ## 6) Tai sao cach nay free
 

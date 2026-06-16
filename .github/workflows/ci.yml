@@ -2,8 +2,14 @@ name: CI
 
 on:
   pull_request:
+    branches:
+      - develop
+      - staging
+      - master
   push:
     branches:
+      - develop
+      - staging
       - master
 
 jobs:

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="~{fragments/head :: head}">
+</head>
+<body>
+
+<nav th:replace="~{fragments/nav :: navbar}"></nav>
+
+<!-- Reading progress bar -->
+<div id="reading-progress" class="reading-progress"></div>
+
+<main class="post-main">
+    <article class="post-article" th:if="${post != null}">
+        <!-- Post header -->
+        <header class="post-header">
+            <div class="container post-header-inner">
+                <div class="post-breadcrumb">
+                    <a href="/blog">Blog</a>
+                    <span>/</span>
+                    <span th:text="${post.category}">Category</span>
+                </div>
+                <div class="post-tags-top">
+                    <span th:each="tag : ${post.tags}" class="tag" th:text="${tag}">Tag</span>
+                </div>
+                <h1 class="post-title" th:text="${post.title}">Title</h1>
+                <p class="post-excerpt" th:text="${post.excerpt}">Excerpt</p>
+                <div class="post-meta">
+                    <div class="author-info">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80&fit=crop&crop=face"
+                             alt="Hoang Dinh Hieu" class="author-avatar" loading="lazy">
+                        <div>
+                            <span class="author-name">Hoang Dinh Hieu</span>
+                            <span class="author-role">Backend Engineer</span>
+                        </div>
+                    </div>
+                    <div class="post-meta-right">
+                        <span class="post-date">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span th:text="${#temporals.format(post.publishedAt, 'dd MMMM yyyy')}">Date</span>
+                        </span>
+                        <span class="post-read-time">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <span th:text="${post.readTimeMinutes + ' phút đọc'}">8 phút đọc</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="post-cover">
+                <img th:src="${post.coverImage}" th:alt="${post.title}" loading="lazy" class="post-cover-img">
+            </div>
+        </header>
+
+        <!-- Post content -->
+        <div class="container post-content-wrapper">
+            <div class="post-content prose" th:utext="${content}">
+                <!-- Rendered markdown goes here -->
+            </div>
+
+            <!-- Share section -->
+            <div class="post-share">
+                <span class="share-label">Chia sẻ:</span>
+                <a th:href="'https://twitter.com/intent/tweet?text=' + ${post.title} + '&url=https://hayden.dev.vn/blog/' + ${post.slug}"
+                   class="share-btn" target="_blank" rel="noopener" aria-label="Share on Twitter">
+                    𝕏 Twitter
+                </a>
+                <a th:href="'https://www.linkedin.com/sharing/share-offsite/?url=https://hayden.dev.vn/blog/' + ${post.slug}"
+                   class="share-btn" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+                    in LinkedIn
+                </a>
+            </div>
+
+            <!-- Author card -->
+            <div class="author-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80&fit=crop&crop=face"
+                     alt="Hoang Dinh Hieu" class="author-card-avatar" loading="lazy">
+                <div class="author-card-info">
+                    <h3>Hoang Dinh Hieu</h3>
+                    <p class="author-card-bio">Backend Engineer với đam mê Java, Spring Boot và Cloud Architecture. Chia sẻ kiến thức từ kinh nghiệm thực tế ở các dự án production.</p>
+                    <div class="author-card-links">
+                        <a href="https://github.com/hieuhd" target="_blank" rel="noopener">GitHub</a>
+                        <a href="https://linkedin.com/in/hieuhd" target="_blank" rel="noopener">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Related posts -->
+    <section class="related-posts" th:if="${relatedPosts != null and !relatedPosts.isEmpty()}">
+        <div class="container">
+            <h2 class="section-title">Bài viết liên quan</h2>
+            <div class="posts-grid posts-grid-3">
+                <article th:each="rp : ${relatedPosts}" class="post-card">
+                    <a th:href="@{/blog/{slug}(slug=${rp.slug})}" class="post-card-img-link">
+                        <img th:src="${rp.coverImage}" th:alt="${rp.title}" loading="lazy" class="post-card-img">
+                        <span class="post-card-category" th:text="${rp.category}">Category</span>
+                    </a>
+                    <div class="post-card-body">
+                        <div class="post-card-meta">
+                            <span class="post-date" th:text="${#temporals.format(rp.publishedAt, 'dd MMM yyyy')}">Date</span>
+                            <span class="post-read-time" th:text="${rp.readTimeMinutes + ' phút đọc'}">8 phút đọc</span>
+                        </div>
+                        <h3 class="post-card-title">
+                            <a th:href="@{/blog/{slug}(slug=${rp.slug})}" th:text="${rp.title}">Title</a>
+                        </h3>
+                        <p class="post-card-excerpt" th:text="${rp.excerpt}">Excerpt</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<!-- Prism.js for code highlighting -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+<script>
+    // Reading progress
+    window.addEventListener('scroll', () => {
+        const el = document.getElementById('reading-progress');
+        if (!el) return;
+        const totalHeight = document.body.scrollHeight - window.innerHeight;
+        const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+        el.style.width = progress + '%';
+    });
+</script>
+</body>
+</html>
